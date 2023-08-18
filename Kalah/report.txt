@@ -1,0 +1,137 @@
+﻿Project 3 Report
+
+
+Board Class: For the design of the board class, I followed the required design of two vectors, one for the south side of the board and another for the north side of the board. I oriented it as the first pot being zero, and the index of zero increasing from there. I implemented three private variables, one for the number of holes, one for the starting number of beans per hole, and another for the total number of beans. I also implemented a private member function to initialize the vectors.
+
+
+Player Class: For the design of the player class, I set up the player class as the derived class, and humanplayer, badplayer, and smart player as the derived classes. For SmartPlayer, I implemented a private member function named evaluate that generates for a given board and side based on how beneficial it is to the player on that side. This function was used within the SmartPlayer::chooseMove function.
+
+
+Game Class: For the design of the game class, I added four private members. A Board, two Player pointers, and a Side. Each Player pointer corresponded to the individual players, on south and north. The Side existed in order to keep track of whose turn it currently was.
+
+
+Design for SmartPlayer::chooseMove
+The task of choosing a move for SmartPlayer was done using a helper evaluation function. The evaluation function generates a score based on three criteria: how many seeds are captured, how many seeds the opponent captures, and how many empty holes are left on the player’s side. For the chooseMove function itself, the function loops through each hole, evaluating the score for each hole using the evaluate function, and then returns the index of the hole with the highest score based on the evaluate function.
+
+
+Pseudocode:
+
+
+Board::Sow
+
+
+If holes invalid or empty
+        Return false
+        
+South’s Turn:
+        Remove all beans from hole chosen
+        Repeatedly: while not all beans are not yet sown
+                If passing pot: change side and hole accordingly
+                If not right before pot: drop bean
+                If right before pot: set position to 0 and add bean to pot
+North’s Turn:
+Remove all beans from hole chosen
+Repeatedly: while not all beans are not yet sown
+        If passing pot: change side and hole accordingly
+        If not right before pot: drop bean
+        If right before pot: set position to 0 and add bean to pot
+If last bean lands in pot:
+Adjust values of endHole and endSide
+Return true;
+
+
+Game::move
+
+
+If South’s turn:
+        chooseMove
+        Sow, if possible:
+                If ends in pot and there are beans on player’s side
+give the player another turn
+                If ends on same side
+                        Capture if possible
+If North’s turn:
+        chooseMove
+        Sow, if possible:
+                If ends in pot and there are beans on player’s side
+give the player another turn
+                If ends on same side
+                        Capture if possible
+
+
+Switch turn to other side
+Sweep if game is over
+
+
+Game::play
+
+
+Display game
+Repeatedly: while game is not over
+        Move
+        Display
+        If neither player is interactive:
+                Prompt user to continue game
+        Update status
+If game has winner, return winner
+Else tie game
+
+
+Notable Problems:
+
+
+I encountered issues while writing the sow function, especially when crossing over from one side to the other. It was also difficult to implement the capture feature, as I was unsure of where to check for if capture was a valid move to make at that point.
+        
+List of Test Cases:
+
+
+//test board
+Board b = Board(6, 3);
+Side s = SOUTH;
+Side n = NORTH;
+
+
+//initialization
+assert(b.holes() == 6);
+assert(b.beans(s, 3) == 3);
+assert(b.beans(s, 6) == 3);
+assert(b.beans(n, 1) == 3);
+assert(b.beansInPlay(s) == 18);
+assert(b.totalBeans() == 36);
+
+
+
+
+Board a = Board(3, 3);
+Side s1 = SOUTH;
+Side n1 = NORTH;
+
+
+Side endSide;
+int endHole;
+
+
+assert(a.sow(SOUTH, 0, endSide, endHole) == false);
+assert(a.sow(SOUTH, 3, endSide, endHole));
+assert(a.moveToPot(n1, 1, s1) == true);
+
+
+//human vs computer
+HumanPlayer hp("Marge");
+BadPlayer bp("Homer");
+Board b(3, 2);
+Game g(b, &hp, &bp);
+g.play();
+
+
+//smartplayer
+HumanPlayer hp("Marge");
+SmartPlayer bp("Homer");
+Board b(3, 2);
+Game g(b, &hp, &bp);
+g.play();
+
+
+doBoardTests();
+doPlayerTests();
+doGameTests();

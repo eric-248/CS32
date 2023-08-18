@@ -1,0 +1,22 @@
+﻿Homework 4 
+
+
+1e) When new elements are added to vector v2, a reallocation of memory occurs because v2 current memory allocated to v2 is not enough to contain a vector of size 10. When this happens, the location in memory that iterator p points to is no longer part of the v2 vector, terminating to the loop because comparing iterator p with v2.end would no longer be valid.
+
+
+3) The one argument insert function inserts an element into a position when the element passed as an argument has a value greater than a value in the sequence. There is no way for a coord to be evaluated as greater than another coord, causing a compilation error. Therefore, a second parameter taking a position must exist so that a coord can be inserted appropriately.
+
+
+4b) The reason that it is not possible to implement the listAll function with only parameter and without a helper function is because there is no way to store a string keeping track of the menu items' names earlier in the path. Each time a recursive call is set, the path is reset.
+
+
+5a) The time complexity of this algorithm is O(N^3). This is because there is a set of three nested for loops.
+
+
+5b) Due to redundant calculations being cut out, the time complexity of this algorithm is O(N^2/2), which simplifies to O(N^2).
+
+
+6a) The time complexity of the algorithm is O(N). The swap function has a time complexity of O(1) because it has direct access via a pointer and thus only has to exchange the pointers of the two elements in the linked lists. The two separate for loops can each be thought of as O(N). Adding them up would result in a time complexity of O(N)+O(N), equivalent to O(N).
+
+
+6b) This implementation is the same as the implementation in part a. The time complexity for each for loop would still be O(N). The swap of *this with res still only contributes a time complexity of O(1), resulting in an overall time complexity of O(N).

@@ -1,0 +1,278 @@
+﻿Eric Du
+
+
+Project 2 Report
+
+
+Description of Design:
+
+
+For this project I used a doubly linked list. Each node has a next and previous pointer. Head-prev points to null, as well as tail->next. I didn’t implement a dummy node. Inside the nodes, there is private member m_elem to store a value, as well as a next and prev to point to next or previous locations.
+
+
+  
+
+
+
+Pseudocode:
+
+
+Sequence::~Sequence():
+        If head nullptr:
+                Return
+        Create newNode = head
+        Create otherNode
+
+
+        Loop: until until newNode = nullptr
+                Delete nodes
+
+
+Sequence::Sequence(const Sequence& other):
+        Loop: until other.size
+                Get val at i from other
+                Store in itemtype
+                insert itemtype into sequence
+
+
+Int Sequence::insert(int pos, const ItemType& value):
+        Check pos to make sure is valid
+        If valid:
+        newNode
+        If beginning
+                Insert newNode at first spot
+        If end
+                Insert newNode at last spot
+        If middle
+                Create temp node
+                Loop through to find spot
+                Insert newNode
+                Change surrounding pointers
+        Increment size
+        Return index that value was inserted
+
+
+        Else return -1
+
+
+int Sequence::insert(const ItemType& value):
+        Create new node at head
+        Create tracker for index
+
+
+        Loop:
+                If value is equal to node
+                Break
+        Pass index to insert to other function
+        Return index it value inserted at
+
+
+bool Sequence::erase(int pos):
+        If pos not valid
+                Return false
+newNode = head
+Traverse:
+        Until reaches position
+        Store position in newNode
+If current not found
+        Return false
+Remove from beginning
+Else remove from middle
+Else remove from end
+
+
+Delete newNode
+Decrement size
+Return true
+
+
+int Sequence::remove(const ItemType& value):
+If size is 0
+Return 0
+Counter = 0
+Loop: while value is in Sequence
+Erase value
+Increment counter
+Return counter        
+
+
+bool Sequence::get(int pos, ItemType& value) const:
+
+
+        Create index tracker
+        If pos valid:
+                Loop:
+                         if at pos:
+                                Store data into value
+                                Break loop
+                Return true
+        Else return false
+
+
+bool Sequence::set(int pos, const ItemType& value)
+        Create index tracker
+        If pos valid:
+                Loop:
+                         if at pos:
+                                Store value into node
+                                Break loop
+                Return true
+        Else return false
+
+
+int Sequence::find(const ItemType& value) const:
+        Create index tracker
+                Loop:
+                        If node at pos = value
+                        Return index
+                Return true
+        Else return false
+
+
+void Sequence::swap(Sequence& other):
+        Swap size using temp
+        Swap head using temp
+        Swap tail using temp
+
+
+int subsequence(const Sequence& seq1, const Sequence& seq2):
+        Create counter
+        Loop: for less than size of seq1
+                Loop: for less than size of seq2
+                        Item1 = Get item in seq1
+                        Item2 = Get item in seq2
+                        If Item1 = Item2 increment count
+                        Else:
+                                Set count to 0
+                Return index of count is size of subsequence
+                Else return -1
+void concatReverse(const Sequence& seq1, const Sequence& seq2, Sequence& result):
+        Create new sequence
+Reverse sequence 1:
+                Loop: starting from last index
+                        Insert into new sequence
+        Create new Sequence
+        Reverse sequence 2:
+                Loop: starting from last index
+                        Insert into new sequence
+        Combine into result:
+                Set result equal to first new sequence
+                Loop through second new sequence
+                        Insert values
+
+
+List of test cases:
+
+
+// default constructor
+    Sequence s;
+    // For an empty sequence:
+    assert(s.size() == 0);             // test size
+    assert(s.empty());                 // test empty
+    assert(s.remove("a") == 0);  // nothing to remove 
+
+
+    assert(s.insert(0, "e") == 0); //adding to empty sequence
+    assert(s.insert(1, "i") == 1); //adding to end of sequence
+    assert(s.size() == 2);
+    assert(s.insert(0, "c") == 0);  //adding to beginning of sequence
+    assert(s.insert(2, "f") == 2); //adding to middle of sequence
+
+
+
+
+    assert(s.insert("a") == 0);   //adding smallest value to sequence should go in beginning
+    assert(s.insert("m") == 5); //adding largest value to sequence should go at end
+    assert(s.insert("g") == 4); //adding a value in the middle 
+    assert(s.size() == 7);
+
+
+    assert(s.erase(0)); //erasing from beginning of list
+    ItemType x;
+    assert(s.get(0, x) && x == "c");
+    assert(s.size() == 6);
+    assert(s.erase(5)); //erasing from end of list
+    assert(s.size() == 5);
+    assert(s.erase(3)); //erasing from middle of list
+
+
+    assert(s.insert("f") == 2);
+    assert(s.remove("f") == 2); //removing when there are multiple copies of the same item
+
+
+    assert(s.find("g") == -1); //finding an item that doesn't exist
+    assert(s.find("c") == 0);
+    assert(s.find("e") == 1);
+    assert(s.find("i") == 2);
+
+
+    assert(s.insert("f") == 2);
+    assert(s.insert("m") == 4);
+    //s.dump();
+
+
+    Sequence s1;
+    assert(s1.insert("f") == 0);
+    assert(s1.insert("i") == 1);
+    //s1.dump();
+    assert(subsequence(s, s1) == 2); //subsequence in middle of sequence
+
+
+    Sequence s2;
+    assert(s2.insert("c") == 0);
+    assert(s2.insert("e") == 1);
+    //s2.dump();
+    assert(subsequence(s, s2) == 0); //subsequence in beginning of sequence
+
+
+    Sequence s3;
+    assert(s3.insert("c") == 0);
+    assert(s3.insert("i") == 1);
+    //s3.dump();
+    assert(subsequence(s, s3) == -1); //subsequence does not exist in sequence
+
+
+    Sequence s4;
+    //s2.dump();
+    //s3.dump();
+    concatReverse(s2, s3, s4); //regular case where seq1 and seq2 are different and s4 is empty
+    //s4.dump();
+    //s3.dump();
+
+
+    Sequence s6;
+    //s2.dump();
+    concatReverse(s6, s2, s4); //seq1 is empty
+    //s4.dump();
+
+
+    //s2.dump();
+    concatReverse(s2, s6, s4); //seq2 is empty
+    //s4.dump();
+
+
+    Sequence s7 = s1;
+    concatReverse(s2, s3, s7); //seq1 and seq2 are regular and s7 is not empty
+    //s7.dump();
+
+
+    concatReverse(s2, s3, s2); //when seq1 and result are the same thing
+    //s2.dump();
+    //s1.dump();
+    //s3.dump();
+    concatReverse(s1, s3, s3); //when seq2 and result are the same thing
+    //s3.dump();
+    Sequence s5 = s4; //copy constructor
+    //s5.dump();
+
+
+    s1.swap(s);
+    //s1.dump();
+    //s.dump();
+    assert(s.size() == 2);
+    assert(s1.size() == 5);
+
+
+    s = s1; //assignment operator
+    //s.dump();
+    assert(s.size() == 5);

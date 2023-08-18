@@ -1,0 +1,34 @@
+﻿Project 4 Report
+
+
+Description of Algorithms & Data Structures:
+
+
+For this project, I implemented a hash table with an underlying design of nested vectors. In order to split different anagrams of words among the table, a hash function was implemented to assign a key to each string of words. The reason that I chose a vector was because it is efficient to traverse. Moreover, it was more efficient because I could set the outside vector to be resizable. 
+  
+
+Insert Function: For the insert function, I first removed all the nonletters from the word. Then I found the key, utilizing the hash function, and used push_back to insert it into the vector at that key.
+
+
+Lookup Function: I first removed all the non letters from the word. I utilized the hash function to figure out which key to go to within the hashtable, and then iterated through all the words within the vector associated with that key. For each time an anagram was found, the callback function was called.
+
+
+Problems Encountered: I first tried to implement a list of linked lists. However, the program couldn’t run under 30 milliseconds. I also occasionally encountered problems with memory leaks due to the linked lists.
+Pseudocode: 
+
+
+Insert:
+        Strip word of non letters
+        If empty, return
+        
+        Find key
+        Push back into vector with associated key
+
+
+Lookup:
+        Return if callback is nullptr
+        Sort letters and remove non letters:
+                Return if empty
+        Repeatedly: for words vector associated with key
+                If word is permutation of letters:
+                        Callback function
